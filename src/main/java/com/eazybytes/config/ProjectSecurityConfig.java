@@ -6,6 +6,7 @@ import javax.activation.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -20,6 +21,8 @@ import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 @Configuration
 public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
+	HttpMethod httpMethod;
+
 	/**
 	 * /myAccount - Secured /myBalance - Secured /myLoans - Secured /myCards -
 	 * Secured /notices - Not Secured /contact - Not Secured
@@ -32,6 +35,7 @@ public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
 //		http.httpBasic();
 
 		// customized
+
 		/*
 		 * http.authorizeRequests().antMatchers("/myAccount").authenticated().
 		 * antMatchers("/myBalance").authenticated()
@@ -40,9 +44,17 @@ public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
 		 * .permitAll().antMatchers("/contact").permitAll().and().formLogin().and().
 		 * httpBasic();
 		 */
+
 		
-		http.authorizeRequests().regexMatchers("/secure").authenticated().regexMatchers("/notsecure").permitAll()
-		.and().formLogin().and().httpBasic();
+		  http.authorizeRequests().regexMatchers("/secure/*").authenticated().
+		  regexMatchers("/notsecure/*").permitAll()
+		  .and().formLogin().and().httpBasic();
+		 
+		/*
+		 * http.authorizeRequests().regexMatchers(httpMethod,"/secure/*").authenticated(
+		 * ).regexMatchers(httpMethod,"/notsecure/*").permitAll()
+		 * .and().formLogin().and().httpBasic();
+		 */
 		// all denial
 		/*
 		 * http.authorizeRequests((requests) -> requests.anyRequest().denyAll());
