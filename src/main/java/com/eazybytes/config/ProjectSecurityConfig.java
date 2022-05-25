@@ -50,7 +50,7 @@ public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
 //		  regexMatchers("/notsecure/*").permitAll()
 //		  .and().formLogin().and().httpBasic();
 		 
-		  http.authorizeRequests().regexMatchers("**/secure/**").authenticated().regexMatchers("/notsecure/**").permitAll() .and().formLogin().and().httpBasic();
+		  http.authorizeRequests().regexMatchers("/secure/**").authenticated().regexMatchers("/notsecure/**").permitAll() .and().formLogin().and().httpBasic();
 		// all denial
 		/*
 		 * http.authorizeRequests((requests) -> requests.anyRequest().denyAll());
