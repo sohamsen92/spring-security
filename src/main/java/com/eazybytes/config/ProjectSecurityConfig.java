@@ -1,23 +1,12 @@
 package com.eazybytes.config;
 
-import java.util.Collection;
-
-import javax.activation.DataSource;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
 
 @Configuration
 public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -36,21 +25,21 @@ public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
 
 		// customized
 
-		/*
-		 * http.authorizeRequests().antMatchers("/myAccount").authenticated().
-		 * antMatchers("/myBalance").authenticated()
-		 * .antMatchers("/myLoans").authenticated().antMatchers("/myCards").
-		 * authenticated().antMatchers("/notices")
-		 * .permitAll().antMatchers("/contact").permitAll().and().formLogin().and().
-		 * httpBasic();
-		 */
+		
+//		  http.authorizeRequests().antMatchers("/myAccount").authenticated().
+//		  antMatchers("/myBalance").authenticated()
+//		  .antMatchers("/myLoans").authenticated().antMatchers("/myCards").
+//		  authenticated().antMatchers("/notices")
+//		  .permitAll().antMatchers("/contact").permitAll().and().formLogin().and().
+//		  httpBasic();
+		 
 
 		
 //		  http.authorizeRequests().regexMatchers("/secure/*").authenticated().
 //		  regexMatchers("/notsecure/*").permitAll()
 //		  .and().formLogin().and().httpBasic();
 		 
-		  http.authorizeRequests().regexMatchers("/secure/**").authenticated().regexMatchers("/notsecure/**").permitAll() .and().formLogin().and().httpBasic();
+		  http.authorizeRequests().antMatchers("/secure/**").authenticated().antMatchers("/notsecure/**").permitAll() .and().formLogin().and().httpBasic();
 		// all denial
 		/*
 		 * http.authorizeRequests((requests) -> requests.anyRequest().denyAll());
@@ -82,11 +71,12 @@ public class ProjectSecurityConfig extends WebSecurityConfigurerAdapter {
 	 * auth.userDetailsService(userDetailsServices); }
 	 */
 
-	@Bean
-	public UserDetailsService userDetailsService(javax.sql.DataSource dataSource) {
-		return new JdbcUserDetailsManager(dataSource);
-	}
+//	@Bean
+//	public UserDetailsService userDetailsService(javax.sql.DataSource dataSource) {
+//		return new JdbcUserDetailsManager(dataSource);
+//	}
 
+	@SuppressWarnings("deprecation")
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();
