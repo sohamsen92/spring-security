@@ -1,16 +1,33 @@
 package com.eazybytes.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eazybytes.model.Customer;
+import com.eazybytes.model.Loans;
+import com.eazybytes.repository.LoanRepository;
+
 @RestController
-@RequestMapping("/secure")
 public class LoansController {
 	
-	@GetMapping("/myLoans")
-	public String getLoanDetails(String input) {
-		return "Here are the loan details from the DB";
+	@Autowired
+	private LoanRepository loanRepository;
+	
+	@PostMapping("/myLoans")
+	@PreAuthorize("hasRole('ROOT')")
+	public List<Loans> getLoanDetails(@RequestBody Customer customer) {
+		List<Loans> loans = loanRepository.findByCustomerIdOrderByStartDtDesc(customer.getId());
+		if (loans != null ) {
+			return loans;
+		}else {
+			return null;
+		}
 	}
 
 }
